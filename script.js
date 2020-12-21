@@ -21,7 +21,7 @@ let wrongLetters = [];
 
 //get random word from api
 async function getRandomWord() {
-  const res = await fetch('http://random-word-api.herokuapp.com/word?number=1');
+  const res = await fetch('https://random-word-api.herokuapp.com/word?number=1');
   const data = await res.json();
 
   return data[0];
