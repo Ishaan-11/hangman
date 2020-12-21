@@ -8,15 +8,24 @@ const finalMessageReveal = document.getElementById('final-message-reveal-word');
 
 const figurePart = document.querySelectorAll('.figure-part'); 
 
-const words = ['application', 'programming', 'interface', 'wizard'];
+// const words = ['application', 'programming', 'interface', 'wizard'];
 
-let randomWord = words[Math.floor(Math.random() * words.length)];
+// let randomWord =  words[Math.floor(Math.random() * words.length)];
+
+let randomWord = '';
 
 let playable = true;
 
 let correctLetters = [];
 let wrongLetters = [];
 
+//get random word from api
+async function getRandomWord() {
+  const res = await fetch('http://random-word-api.herokuapp.com/word?number=1');
+  const data = await res.json();
+
+  return data[0];
+}
 
 // Show hidden word
 function showWord() {
@@ -115,14 +124,15 @@ window.addEventListener('keydown', (e) => {
 });
 
 // Restart game and play again
-playAgainBtn.addEventListener('click', () => {
+playAgainBtn.addEventListener('click', async () => {
   playable = true;
 
 	// Empty arrays
   correctLetters = [];
   wrongLetters = [];
 
-  randomWord = words[Math.floor(Math.random() * words.length)];
+  // randomWord = words[Math.floor(Math.random() * words.length)];
+  randomWord = await getRandomWord();
 
   showWord();
 
@@ -131,4 +141,8 @@ playAgainBtn.addEventListener('click', () => {
   popupContainer.style.display = 'none';
 });
 
-showWord();
+
+(async () => {
+  randomWord =  await getRandomWord();
+  showWord();
+})();
